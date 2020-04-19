@@ -1,11 +1,51 @@
 function download(filename, text) {
-    var element = document.createElement('a')
+    let element = document.createElement('a')
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
     element.setAttribute('download', filename)
     element.style.display = 'none'
     document.body.appendChild(element)
     element.click()
     document.body.removeChild(element)
+}
+
+function fetchLogo(item, imgUrl) {
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        let reader = new FileReader();
+        reader.onloadend = function() {
+            item.logo = reader.result;
+            checkEndFetchLogo();
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.onerror = function (e) {
+        console.log(e);
+        checkEndFetchLogo();
+    };
+    xhr.open('GET', imgUrl);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
+
+function checkEndFetchLogo() {
+    window.logoIndex++;
+    updateProgress();
+    console.log(window.logoIndex);
+    // 只打包书签栏里的
+    if (window.logoIndex == window.logoCnt) {
+        let yaml = json2yaml(window.dataObj.sub);
+        //console.log(yaml);
+        download('webstack.yml', yaml);
+        $('#progress-status').text('已结束');
+    }
+}
+
+function updateProgress() {
+    let progress = Math.floor(window.logoIndex / window.logoCnt * 100);
+    let progressText = progress + '%';
+    $(".progress-bar").attr('aria-valuenow', progress);
+    $(".progress-bar").css('width', progressText);
+    $(".progress-bar").text(progressText);
 }
 
 function convert2yaml(content) {
@@ -17,15 +57,19 @@ function convert2yaml(content) {
     //console.log(doms);
     const dt = doms.getElementsByTagName('dl')[0].querySelector('dt');
 
-    let obj = foo(dt, 0);
-    console.log(obj);
+    $('#progress-status').text('转换中');
+    window.logoCnt = 0;
+    updateProgress();
 
-    // 只打包书签栏里的
-    let yaml = json2yaml(obj.sub);
-    //console.log(yaml);
-    download('webstack.yml', yaml);
+    window.dataObj = handleDT(dt, 0);
+    console.log(window.dataObj);
 
-    function foo(dt, depth) {
+    updateProgress();
+    window.logoIndex = 0;
+    window.progressStatus = 'logo';
+    $('#progress-status').text('生成Logo');
+
+    function handleDT(dt, depth) {
         // h3标签为文件夹名称
         const h3 = dt.querySelector('h3');
         if (!h3) {
@@ -34,21 +78,20 @@ function convert2yaml(content) {
             if (!a) return null;
 
             const name = a.innerText;
-            const title = ''; // No Title
-            const description = name;
+            const title = name;
+            const description = '';
             let item = {
                 title: title,
                 description: description,
                 url: a.href,
+                flogo: name.substring(0,1),
                 isLink: true,
             };
-            const logo = a.getAttribute('icon');
-            if (logo) {
-                item.logo = logo;
-            } else {
-                const flogo = name.substring(0,1);
-                item.flogo = flogo;
-            }
+            window.logoCnt++;
+            console.log("begin", window.logoCnt);
+            const fetchLogoUrl = window.faviconserver + '/icon?size=80..120..200&url=' + a.href;
+            fetchLogo(item, fetchLogoUrl);
+            updateProgress();
             return item;
         }
 
@@ -66,7 +109,7 @@ function convert2yaml(content) {
         let dtArr = dt.getElementsByTagName('dl')[0].querySelectorAll(':scope > dt');
         for (let i = 0; i < dtArr.length; i++) {
             // 遍历下一级dt标签
-            let tmp = foo(dtArr[i], depth + 1);
+            let tmp = handleDT(dtArr[i], depth + 1);
             if (tmp) {
                 if (tmp.isLink) {
                     delete tmp.isLink;
@@ -102,13 +145,13 @@ function upload(files) {
 }
 
 //点击本地上传文件
-document.querySelector('#upload').addEventListener('click', function () {            
+document.querySelector('#upload').addEventListener('click', function () {
     document.getElementById('fileinput').click();
 })
 
-document.querySelector('#fileinput').addEventListener('change', function () {            
+document.querySelector('#fileinput').addEventListener('change', function () {
     let filesList = document.querySelector('#fileinput').files;
-    if (filesList.length==0) {         //若是取消上传，则改文件的长度为0         
+    if (filesList.length==0) {         //若是取消上传，则改文件的长度为0
         return;
     }
     //若是有文件上传，这在这里面进行
@@ -121,7 +164,7 @@ function getDropFileCallBack (dropFiles) {
     upload(dropFiles);
 }
 
-let dropZone = document.querySelector('#dropZone');
+let dropZone = document.querySelector('.main-content');
 dropZone.addEventListener('dragenter', function (e) {
     e.preventDefault();
     e.stopPropagation();

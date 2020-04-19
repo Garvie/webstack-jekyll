@@ -38,36 +38,112 @@
     <meta name="twitter:image" content="{{ site.url }}/assets/images/webstack_banner_cn.png">
 </head>
 
-<body class="page-body boxed-container">
-    <nav class="navbar horizontal-menu navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="navbar-brand">
-                <a href="index.html" class="logo">
-                    <img src="../assets/images/logo_dark@2x.png" width="100%" alt="" class="hidden-xs">
-                    <img src="../assets/images/logo@2x.png" width="100%" alt="" class="visible-xs">
-                </a>
-            </div>
-            <div class="navbar-mobile-clear"></div>
-            <a href="https://github.com/{{ site.github.repo }}" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-        </div>
-    </nav>
+<body class="page-body">
+    <!-- skin-white -->
     <div class="page-container">
-        <!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
-        <div class="main-content" style="">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        {{ content }}
+        <div class="sidebar-menu toggle-others fixed">
+            <div class="sidebar-menu-inner">
+                <header class="logo-env">
+                    <!-- logo -->
+                    <div class="logo">
+                        <a href="index.html" class="logo-expanded">
+                            <img src="../assets/images/logo@2x.png" width="100%" alt="" />
+                        </a>
+                        <a href="index.html" class="logo-collapsed">
+                            <img src="../assets/images/logo-collapsed@2x.png" width="40" alt="" />
+                        </a>
                     </div>
-                </div>
+                    <div class="mobile-menu-toggle visible-xs">
+                        <a href="#" data-toggle="user-info-menu">
+                            <i class="linecons-cog"></i>
+                        </a>
+                        <a href="#" data-toggle="mobile-menu">
+                            <i class="fa-bars"></i>
+                        </a>
+                    </div>
+                </header>
+                <ul id="main-menu" class="main-menu">
+                    <li>
+                        <a href="index.html" class="smooth">
+                            <i class="fa-home"></i>
+                            <span class="title">首页</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="convert.html">
+                            <i class="fa-cogs"></i>
+                            <span class="tooltip-blue">导入书签</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="about.html">
+                            <i class="linecons-heart"></i>
+                            <span class="tooltip-blue">关于本站</span>
+                            <!-- <span class="label label-Primary pull-right hidden-collapsed">♥︎</span> -->
+                        </a>
+                    </li>
+                    <br >
+                    <br >
+                    <li>
+                        <a>
+                    <span id="busuanzi_container_site_uv">本站总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </div>
+
+        <div class="main-content">
+            <nav class="navbar user-info-navbar" role="navigation">
+                <!-- User Info, Notifications and Menu Bar -->
+                <!-- Left links for user info navbar -->
+                <ul class="user-info-menu left-links list-inline list-unstyled">
+                    <li class="hidden-sm hidden-xs">
+                        <a href="#" data-toggle="sidebar">
+                            <i class="fa-bars"></i>
+                        </a>
+                    </li>
+                    <!-- <li class="dropdown hover-line language-switcher">
+                        <a href="../cn/index.html" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="../assets/images/flags/flag-cn.png" alt="flag-cn" /> Chinese
+                        </a>
+                        <ul class="dropdown-menu languages">
+                        <li>
+                        <a href="../en/index.html">
+                        <img src="../assets/images/flags/flag-us.png" alt="flag-us" /> English
+                        </a>
+                        </li>
+                        <li class="active">
+                        <a href="../cn/index.html">
+                        <img src="../assets/images/flags/flag-cn.png" alt="flag-cn" /> Chinese
+                        </a>
+                        </li>
+                        </ul>
+                        </li> -->
+                </ul>
+                <a href="https://github.com/{{ site.github.repo }}" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+            </nav>
+
+            {{ content }}
+
             <!-- Main Footer -->
-            <footer class="main-footer sticky footer-type-1 fixed">
+            <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
+            <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
+            <!-- Or class "fixed" to  always fix the footer to the end of page -->
+            <footer class="main-footer sticky footer-type-1">
                 <div class="footer-inner">
+                    <!-- Add your copyright text here -->
                     <div class="footer-text">
-                        &copy; 2017 - 2019
+                        &copy; 2017-2020
                         <a href="/about.html"><strong>WebStack</strong></a> design by <a href="http://viggoz.com" target="_blank"><strong>Viggo</strong></a>
+                        <!--  - Purchase for only <strong>23$</strong> -->
                     </div>
+                    <!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
                     <div class="go-up">
                         <a href="#" rel="go-top">
                             <i class="fa-angle-up"></i>
@@ -76,17 +152,28 @@
                 </div>
             </footer>
         </div>
+
     </div>
+    
     <!-- Bottom Scripts -->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/TweenMax.min.js"></script>
-    <script src="assets/js/resizeable.js"></script>
-    <script src="assets/js/joinable.js"></script>
-    <script src="assets/js/xenon-api.js"></script>
-    <script src="assets/js/xenon-toggles.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/TweenMax.min.js"></script>
+    <script src="../assets/js/resizeable.js"></script>
+    <script src="../assets/js/joinable.js"></script>
+    <script src="../assets/js/xenon-api.js"></script>
+    <script src="../assets/js/xenon-toggles.js"></script>
     <!-- JavaScripts initializations and stuff -->
-    <script src="assets/js/xenon-custom.js"></script>
-    <textarea tabindex="-1" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px; padding: 0px; box-sizing: content-box; word-wrap: break-word; overflow: hidden; transition: none; height: 0px !important; min-height: 0px !important; font-family: Arimo, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; word-spacing: 0px; text-indent: 0px; line-height: 18.5714px; width: 53px;" class="autosizejs" id="autosizejs"></textarea>
+    <script src="../assets/js/xenon-custom.js"></script>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139883805-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-139883805-3');
+    </script>
 </body>
 
 </html>
