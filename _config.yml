@@ -27,7 +27,7 @@ url: "https://w.hanxi.info" # the base hostname & protocol for your site, e.g. h
 email: hanxi.info@gmail.com
 
 # faviconserver is from https://github.com/mat/besticon
-faviconserver: "http://192.168.238.5:2015"
+faviconserver: "https://home.hanxi.info:2112"
 
 # Build settings
 theme: minima
