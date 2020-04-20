@@ -41,7 +41,10 @@ function checkEndFetchLogo() {
 }
 
 function updateProgress() {
-    let progress = Math.floor(window.logoIndex / window.logoCnt * 100);
+    let progress = 0;
+    if (window.logoCnt > 0) {
+        progress = Math.floor(window.logoIndex / window.logoCnt * 100);
+    }
     let progressText = progress + '%';
     $(".progress-bar").attr('aria-valuenow', progress);
     $(".progress-bar").css('width', progressText);
@@ -51,15 +54,15 @@ function updateProgress() {
 function convert2yaml(content) {
     //console.log(content);
 
+    $('#progress-status').text('转换中');
+    window.logoCnt = 0;
+    updateProgress();
+
     const doms = document.createElement('html');
     doms.innerHTML = content;
     window.doms = doms;
     //console.log(doms);
     const dt = doms.getElementsByTagName('dl')[0].querySelector('dt');
-
-    $('#progress-status').text('转换中');
-    window.logoCnt = 0;
-    updateProgress();
 
     window.dataObj = handleDT(dt, 0);
     console.log(window.dataObj);
@@ -91,7 +94,6 @@ function convert2yaml(content) {
             console.log("begin", window.logoCnt);
             const fetchLogoUrl = window.faviconserver + '/icon?size=80..120..200&url=' + a.href;
             fetchLogo(item, fetchLogoUrl);
-            updateProgress();
             return item;
         }
 
@@ -149,13 +151,15 @@ document.querySelector('#upload').addEventListener('click', function () {
     document.getElementById('fileinput').click();
 })
 
-document.querySelector('#fileinput').addEventListener('change', function () {
-    let filesList = document.querySelector('#fileinput').files;
+document.querySelector('#fileinput').addEventListener('change', function (event) {
+    //let filesList = document.querySelector('#fileinput').files;
+    let filesList = event.target.files;
     if (filesList.length==0) {         //若是取消上传，则改文件的长度为0
         return;
     }
     //若是有文件上传，这在这里面进行
     upload(filesList);
+    event.target.value = '';
 })
 
 // 获得拖拽文件的回调函数
