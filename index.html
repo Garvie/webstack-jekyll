@@ -146,10 +146,10 @@ layout: home
                 <div class="xe-widget xe-conversations box2 label-info" onclick="window.open('{{ link.url }}', '_blank')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{ link.url }}">
                     <div class="xe-comment-entry">
                         <a class="xe-user-img">
-                            {% if link.flogo %}
-                            <div style="float:left; display:block; margin-right:10px;  width: 40px; height: 40px; border-radius: 50%; font-size: 20px; color: #fff; line-height: 40px; text-align: center; background: #000">{{ link.flogo }}</div>
-                            {% else if %}
+                            {% if link.logo %}
                             <img src="{{ link.logo }}" class="img-circle" width="40">
+                            {% else if %}
+                            <div style="float:left; display:block; margin-right:10px;  width: 40px; height: 40px; border-radius: 50%; font-size: 20px; color: #fff; line-height: 40px; text-align: center; background: #000">{{ link.flogo }}</div>
                             {% endif %}
                         </a>
                         <div class="xe-comment">
